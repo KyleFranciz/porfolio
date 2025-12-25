@@ -3,6 +3,7 @@
 import { SplitText } from "gsap/all";
 import gsap from "gsap";
 import { useLayoutEffect, useRef } from "react";
+import { useGSAP } from "@gsap/react";
 
 interface pTagRefI {
   text: string;
@@ -18,7 +19,7 @@ export default function StaggeredPTag({ text, className, delay }: pTagRefI) {
   const pTagRef = useRef<HTMLParagraphElement | null>(null);
 
   // create a useLayout to help with making sure the animation loads properly
-  useLayoutEffect(() => {
+  useGSAP(() => {
     // make sure that there is a p tag element
     if (!pTagRef.current) return;
 
@@ -40,12 +41,7 @@ export default function StaggeredPTag({ text, className, delay }: pTagRefI) {
       ease: "power2.out",
       rotation: 5,
     });
-
-    // revert the text to normal after the animation runs
-    return () => {
-      split.revert();
-    };
-  }, [text]);
+  });
   return (
     <p ref={pTagRef} className={className}>
       {text}

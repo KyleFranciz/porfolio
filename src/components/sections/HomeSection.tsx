@@ -1,8 +1,10 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import StaggeredText from "@/utils/StaggeredTextAnimation";
 import StaggeredPTag from "@/utils/StaggeredPTag";
 import { motion } from "motion/react";
+import DynamicIsland from "../DynamicIsland";
 
 type SectionProps = {
   id?: string;
@@ -12,18 +14,41 @@ const subheadStagger = 0.2;
 const arrowStagger = 2;
 
 export default function HomeSection({ id = "home" }: SectionProps) {
+  const heroRef = useRef<HTMLElement | null>(null);
+  const [introComplete, setIntroComplete] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    if (!introComplete) {
+      setIsSticky(false);
+      return;
+    }
+
+    const handleScroll = () => {
+      const threshold = heroRef.current?.offsetHeight ?? 0;
+      setIsSticky(window.scrollY > threshold);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [introComplete]);
+
   return (
-    <section className="relative h-screen w-full bg-theme-beige text-theme-dark overflow-hidden font-clash selection:bg-theme-olive selection:text-white">
+    <section
+      ref={heroRef}
+      className="relative h-screen w-full bg-theme-beige text-theme-dark overflow-hidden font-clash selection:bg-theme-olive selection:text-white"
+    >
       {/* 1. GRAIN OVERLAY (Optional)
          This adds that subtle texture seen in your reference.
       */}
-      <div className="absolute inset-0 opacity-[0.10] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
+      <div className="absolute inset-0 opacity-[0.10] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
       {/* 2. TOP DECORATION
        */}
       <div className="absolute top-0 left-0 w-full p-6 md:p-10 flex justify-between items-start z-20">
         {/* Olive Accent Bar */}
-        <div className="w-24 h-1.5 bg-theme-olive"></div>
+        <div className="w-24 h-1.5 bg-theme-olive" />
 
         {/* Top Right Action */}
         <button className="flex items-center md:text-xl gap-2 font-bold hover:opacity-60 transition-opacity sm:text-sm">
@@ -84,24 +109,42 @@ export default function HomeSection({ id = "home" }: SectionProps) {
       {/* 4. BOTTOM STATUS BAR
        */}
       <div className="absolute bottom-0 left-0 w-full p-6 md:p-10 flex flex-col items-center gap-2 text-center md:flex-row md:justify-between md:items-end z-20 font-satoshi font-bold xl md:text-xs tracking-widest uppercase">
-        <div className="flex items-center justify-center">
+        <div className="flex justify-between items-center w-full gap-4">
+          <div className="flex items-center justify-center">
+            <StaggeredPTag
+              delay={subheadStagger}
+              text="GO AHEAD AND SCROLL"
+              className="text-sm cursor-default"
+            />
+            <StaggeredPTag
+              delay={arrowStagger}
+              text="↓"
+              className="text-base px-1"
+            />
+          </div>
+
+          <div className="flex-1 flex items-center justify-center min-h-[7rem]">
+            <div
+              className={`transition-all duration-300 ${
+                isSticky
+                  ? "fixed top-4 left-1/2 z-40 -translate-x-1/2"
+                  : "relative"
+              }`}
+            >
+              <div className="w-fit">
+                <DynamicIsland
+                  onAnimationComplete={() => setIntroComplete(true)}
+                />
+              </div>
+            </div>
+          </div>
+
           <StaggeredPTag
+            text="INTERNSHIP STATUS: SEEKING"
+            className="hidden md:block sm:block sm:hidden text-lg"
             delay={subheadStagger}
-            text="GO AHEAD AND SCROLL"
-            className="text-sm cursor-default"
-          />
-          <StaggeredPTag
-            delay={arrowStagger}
-            text="↓"
-            className="text-base px-1"
           />
         </div>
-
-        <StaggeredPTag
-          text="INTERNSHIP STATUS: SEEKING"
-          className="hidden md:block sm:block sm:hidden text-lg"
-          delay={subheadStagger}
-        />
       </div>
     </section>
   );

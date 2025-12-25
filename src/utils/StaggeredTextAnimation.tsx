@@ -2,6 +2,7 @@
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
 import { useLayoutEffect, useRef } from "react";
+import { useGSAP } from "@gsap/react";
 
 type Text = {
   text: string;
@@ -11,6 +12,7 @@ type Text = {
 
 // register the gsap text plugin
 gsap.registerPlugin(SplitText);
+gsap.registerPlugin(useGSAP);
 
 // function for text animation
 export default function StaggeredText({ text, className }: Text) {
@@ -18,20 +20,21 @@ export default function StaggeredText({ text, className }: Text) {
   const textRef = useRef<HTMLHeadingElement | null>(null); // for the different heading types
 
   // useEffect to help with rerenders
-  useLayoutEffect(() => {
+  useGSAP(() => {
     // check for ref
     if (!textRef.current) {
       return;
     }
 
-    // otherwise make the text split
+    // make the object to make the text controllable
     const split = new SplitText(textRef.current, {
       type: "chars",
       smartWrap: true,
-      charsClass: "char",
-      mask: "chars",
+      charsClass: "char", // controls the styling class that is given
+      mask: "chars", // adds a mask to hid the text when it comes in the screen
     });
 
+    // setting up the animation to split each character
     gsap.from(split.chars, {
       yPercent: "random([200, -300])",
       stagger: 0.085,
@@ -41,12 +44,7 @@ export default function StaggeredText({ text, className }: Text) {
       ease: "power2.out",
       rotation: 5,
     });
-
-    // make the split go back to its original state
-    return () => {
-      split.revert();
-    };
-  }, [text]);
+  });
   return (
     // return the element and make sure its linkable as a ref
     <h1 className={className} ref={textRef}>
