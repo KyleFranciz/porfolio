@@ -38,14 +38,14 @@ export default function DynamicIsland({
       </div>
       <div className="w-80 flex overflow-hidden flex-col items-start ml-4 gap-0">
         <SimpleTextStagger
-          delay={2.5}
+          delay={3.1}
           duration={0.2}
           text="kyle  francis"
           className="uppercase text-background text-2xl"
         />
         <div className="shadow-inner">
           <SimpleTextStagger
-            delay={2.5}
+            delay={3.1}
             duration={0.1}
             infiniteShowcase={true}
             text="Frontend, Backend, Full-Stack, "

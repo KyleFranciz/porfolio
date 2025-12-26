@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StartupAnimation from "../components/animations/StartupAnimation";
+import CircularMouse from "@/components/mouse/CircularMouse";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,11 +24,27 @@ const satoshi = localFont({
     { path: "../fonts/Satoshi-Medium.woff2", weight: "500", style: "normal" },
     { path: "../fonts/Satoshi-Bold.woff2", weight: "700", style: "normal" },
     { path: "../fonts/Satoshi-Black.woff2", weight: "900", style: "normal" },
-    { path: "../fonts/Satoshi-LightItalic.woff2", weight: "300", style: "italic" },
+    {
+      path: "../fonts/Satoshi-LightItalic.woff2",
+      weight: "300",
+      style: "italic",
+    },
     { path: "../fonts/Satoshi-Italic.woff2", weight: "400", style: "italic" },
-    { path: "../fonts/Satoshi-MediumItalic.woff2", weight: "500", style: "italic" },
-    { path: "../fonts/Satoshi-BoldItalic.woff2", weight: "700", style: "italic" },
-    { path: "../fonts/Satoshi-BlackItalic.woff2", weight: "900", style: "italic" },
+    {
+      path: "../fonts/Satoshi-MediumItalic.woff2",
+      weight: "500",
+      style: "italic",
+    },
+    {
+      path: "../fonts/Satoshi-BoldItalic.woff2",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../fonts/Satoshi-BlackItalic.woff2",
+      weight: "900",
+      style: "italic",
+    },
   ],
 });
 
@@ -35,8 +52,16 @@ const clashDisplay = localFont({
   variable: "--font-clash-display",
   display: "swap",
   src: [
-    { path: "../fonts/ClashDisplay-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../fonts/ClashDisplay-Bold.woff2", weight: "700", style: "normal" },
+    {
+      path: "../fonts/ClashDisplay-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/ClashDisplay-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
   ],
 });
 
@@ -55,7 +80,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${satoshi.variable} ${clashDisplay.variable} antialiased`}
       >
-        <StartupAnimation>{children}</StartupAnimation>
+        <StartupAnimation>
+          <CircularMouse />
+          {children}
+        </StartupAnimation>
       </body>
     </html>
   );
