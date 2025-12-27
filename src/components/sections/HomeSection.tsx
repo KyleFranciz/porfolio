@@ -42,19 +42,26 @@ export default function HomeSection({ id = "home" }: SectionProps) {
       {/* 1. GRAIN OVERLAY (Optional)
          This adds that subtle texture seen in your reference.
       */}
-      <div className="absolute inset-0 opacity-[0.10] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      {/* <div className="absolute inset-0 opacity-[0.30] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" /> */}
 
       {/* 2. TOP DECORATION
        */}
       <div className="absolute top-0 left-0 w-full p-6 md:p-10 flex justify-between items-start z-20">
         {/* Olive Accent Bar */}
+        <StaggeredPTag
+          className="text-xl font-bold"
+          text="BASED IN: LAUDERHILL, FL"
+          delay={subheadStagger}
+        />
         <div className="w-24 h-1.5 bg-theme-olive" />
 
         {/* Top Right Action */}
         <button className="flex items-center md:text-xl gap-2 font-bold hover:opacity-60 transition-opacity sm:text-sm">
           {/* <span>→</span> */}
-          <StaggeredPTag delay={arrowStagger} text="→" />
+          {/* <StaggeredPTag delay={arrowStagger} text="→" /> */}
           <StaggeredPTag delay={subheadStagger} text="REACH OUT" />
+          {/* add in an on click that renders out the other nav items and plays the */}
+          {/* animations */}
         </button>
       </div>
 

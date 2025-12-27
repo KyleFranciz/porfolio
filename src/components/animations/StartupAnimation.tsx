@@ -38,14 +38,14 @@ export default function StartupAnimation({
                 }}
               >
                 <Image
-                  height={60}
+                  height={50}
                   src={"/Portfolio Logo.svg"}
                   alt="tree"
-                  width={60}
+                  width={50}
                 />
               </motion.div>
 
-              <motion.div className="text-3xl font-semibold">
+              <motion.div className="text-2xl font-semibold">
                 <PercentageCounter />
               </motion.div>
             </div>

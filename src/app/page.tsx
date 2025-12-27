@@ -45,6 +45,7 @@ export default function Home() {
         ></motion.div>
         {/* </div> */}
         <div>
+          {/* <div className="absolute inset-0 opacity-[0.30] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" /> */}
           <HomeSection id="home" />
           <AboutSection id="about" />
           <ProjectSection id="projects" />
