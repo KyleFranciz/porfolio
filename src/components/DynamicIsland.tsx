@@ -29,8 +29,8 @@ export default function DynamicIsland({
     >
       <div className="w-22.5 min-w-22.5">
         <Image
-          className=" block shrink-0"
-          src={"/photo logo.png"}
+          className=" block shrink-0 rounded-full"
+          src={"/KyleNotionLogoWhite.png"}
           width={90}
           height={90}
           alt="my-logo"

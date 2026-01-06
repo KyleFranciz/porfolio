@@ -1,55 +1,133 @@
+"use client";
+
+import { useRef } from "react";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 type SectionProps = {
   id?: string;
 };
 
 const projects = [
   {
-    title: "Interactive Data Dashboard",
-    description:
-      "Built a dashboard with live data streams, responsive charts, and accessibility-first controls for a finance team.",
-    stack: ["React", "Tailwind", "Chart.js"],
+    title: "Doc AI",
+    description: "Local agent that helps with documentation",
+    image: "/project1.png", // Placeholder
+    link: "https://github.com/KyleFranciz/doc-ai",
   },
   {
-    title: "Design System Playground",
-    description:
-      "Created a component library with tokens, stories, and reusable patterns that keep multiple teams aligned.",
-    stack: ["Storybook", "TypeScript", "Radix UI"],
+    title: "AniLoaded",
+    description: "Anime collection app with social aspects",
+    image: "/project2.png", // Placeholder
+    link: "https://github.com/WonderCharmer26/AniLoaded",
   },
   {
-    title: "Animated Landing Page",
-    description:
-      "Shipped a page with scroll-triggered motion, fluid typography, and lightweight assets that load in under 1 second.",
-    stack: ["Framer Motion", "Next.js", "Vercel Edge"],
+    title: "FAU Network",
+    description: "Campus event app that connects students to on campus events",
+    image: "/project3.png",
+    link: "https://github.com/KyleFranciz/fau-network",
   },
 ];
 
+// function to handle the scrolling on the project section
 export default function ProjectSection({ id = "projects" }: SectionProps) {
+  // container for the scrolling section
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // function for contoling the scrolling of the section
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = scrollRef.current.clientWidth * 0.8;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <section id={id} className="min-h-screen snap-start px-6 py-20">
-      <div className="mx-auto max-w-5xl space-y-10">
-        <div>
-          <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Projects</p>
-          <h2 className="text-3xl font-semibold text-gray-900">Work I&apos;ve shipped</h2>
-        </div>
-        <div className="space-y-6">
-          {projects.map((project) => (
-            <article
-              key={project.title}
-              className="rounded-2xl border border-gray-200 bg-white/60 p-6 shadow-sm transition hover:border-gray-300 hover:shadow-md"
+    <section
+      id={id}
+      className="min-h-screen px-6 py-20 flex flex-col justify-center font-satoshi"
+    >
+      <div className="mx-auto w-full max-w-7xl">
+        {/* Header Section */}
+        <div className="flex flex-wrap items-end justify-between mb-2">
+          <div className="flex flex-wrap items-end gap-x-6 gap-y-2">
+            <h2 className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground">
+              Projects
+            </h2>
+            <Link
+              href="https://github.com/KyleFranciz"
+              target="_blank"
+              className="text-3xl md:text-5xl font-satoshi font-medium text-foreground hover:opacity-80 transition-opacity mb-2"
             >
-              <h3 className="text-2xl font-semibold text-gray-900">{project.title}</h3>
-              <p className="mt-3 text-gray-700">{project.description}</p>
-              <div className="mt-4 flex flex-wrap gap-2 text-sm text-gray-500">
-                {project.stack.map((tool) => (
-                  <span
-                    key={tool}
-                    className="rounded-full border border-gray-200 px-3 py-1 font-medium"
-                  >
-                    {tool}
-                  </span>
-                ))}
+              Github
+            </Link>
+          </div>
+
+          {/* Navigation Arrows */}
+          <div className="flex gap-4 mb-4 md:mb-2">
+            <button
+              onClick={() => scroll("left")}
+              className="p-3 rounded-full border border-mouse/30 text-mouse hover:bg-mouse hover:text-background transition-all duration-300 group"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft
+                size={24}
+                className="group-active:scale-90 transition-transform"
+              />
+            </button>
+            <button
+              onClick={() => scroll("right")}
+              className="p-3 rounded-full border border-mouse/30 text-mouse hover:bg-mouse hover:text-background transition-all duration-300 group"
+              aria-label="Scroll right"
+            >
+              <ChevronRight
+                size={24}
+                className="group-active:scale-90 transition-transform"
+              />
+            </button>
+          </div>
+        </div>
+
+        {/* Separator Line */}
+        <div className="w-full h-[3px] bg-mouse mb-10" />
+
+        {/* Scrollable Project Container */}
+        <div
+          ref={scrollRef}
+          className="flex overflow-x-auto snap-x snap-mandatory lg:gap-4  no-scrollbar pb-10"
+        >
+          {projects.map((project, index) => (
+            <Link
+              key={index}
+              href={project.link}
+              className="group relative block flex-none w-[85vw] md:w-[45vw] aspect-square overflow-hidden rounded-sm snap-start"
+            >
+              {/* Image Placeholder/Container */}
+              <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 z-10" />
+                <div className="w-full h-full bg-[#2a2a2a]" />
               </div>
-            </article>
+
+              {/* Check it out button */}
+              <div className="absolute top-6 right-6 z-20">
+                <div className="bg-[#1e1e1e] text-white px-6 py-3.5 rounded-full text-sm font-medium transition-all duration-300 border border-white/5 group-hover:bg-black">
+                  Check it out
+                </div>
+              </div>
+
+              {/* Project Info */}
+              <div className="absolute bottom-10 left-10 z-20">
+                <h3 className="text-4xl font-satoshi font-medium text-mouse mb-1">
+                  {project.title}
+                </h3>
+                <p className="text-lg font-satoshi text-mouse/90 font-medium">
+                  {project.description}
+                </p>
+              </div>
+            </Link>
           ))}
         </div>
       </div>

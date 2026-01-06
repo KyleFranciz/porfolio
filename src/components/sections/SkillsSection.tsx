@@ -1,36 +1,105 @@
+import Link from "next/link";
+import type { IconType } from "react-icons";
+import {
+  SiPython,
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiSupabase,
+  SiFigma,
+  SiTailwindcss,
+} from "react-icons/si";
+import { FaJava } from "react-icons/fa6";
+
 type SectionProps = {
   id?: string;
 };
 
-const skills = [
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Framer Motion",
-  "Tailwind CSS",
-  "Accessibility",
-  "Content Strategy",
-  "Design Systems",
+const languageSkills: { name: string; link: string; Icon: IconType }[] = [
+  {
+    name: "Python",
+    link: "https://www.python.org/",
+    Icon: SiPython,
+  },
+  {
+    name: "Java",
+    link: "https://www.java.com/",
+    Icon: FaJava,
+  },
+  {
+    name: "React",
+    link: "https://react.dev/",
+    Icon: SiReact,
+  },
+  {
+    name: "Next.js",
+    link: "https://nextjs.org/",
+    Icon: SiNextdotjs,
+  },
+  {
+    name: "TypeScript",
+    link: "https://www.typescriptlang.org/",
+    Icon: SiTypescript,
+  },
+  {
+    name: "JavaScript",
+    link: "https://www.javascript.com/",
+    Icon: SiJavascript,
+  },
 ];
+
+const toolSkills: { name: string; link: string; Icon: IconType }[] = [
+  {
+    name: "Supabase",
+    link: "https://supabase.com/",
+    Icon: SiSupabase,
+  },
+  {
+    name: "Figma",
+    link: "https://figma.com/",
+    Icon: SiFigma,
+  },
+  {
+    name: "Tailwind",
+    link: "https://tailwindcss.com/",
+    Icon: SiTailwindcss,
+  },
+];
+
+const renderSkillCard = ({ name, link, Icon }: { name: string; link: string; Icon: IconType }) => (
+  <Link
+    key={name}
+    href={link}
+    target="_blank"
+    rel="noreferrer"
+    aria-label={`Visit ${name}`}
+    className="group flex aspect-square flex-col items-center justify-center gap-4 rounded-3xl border border-white/20 bg-white/20 p-6 text-center transition-all duration-300 hover:bg-mouse/40 hover:text-foreground"
+  >
+    <Icon size={48} className="text-mouse transition-colors duration-300 group-hover:text-foreground" />
+    <span className="text-lg font-semibold uppercase tracking-wide">{name}</span>
+  </Link>
+);
 
 export default function SkillsSection({ id = "skills" }: SectionProps) {
   return (
     <section
       id={id}
-      className="min-h-screen snap-start flex items-center justify-center px-6 py-16"
+      className="min-h-screen snap-start px-6 py-20 flex justify-center font-satoshi"
     >
-      <div className="mx-auto max-w-4xl">
-        <p className="text-sm uppercase tracking-[0.4em] text-gray-500">Skills</p>
-        <h2 className="mt-3 text-3xl font-semibold text-gray-900">What I bring to the table</h2>
-        <div className="mt-8 grid gap-3 text-lg text-gray-700 sm:grid-cols-2">
-          {skills.map((skill) => (
-            <span
-              key={skill}
-              className="inline-flex items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 font-medium text-gray-800"
-            >
-              {skill}
-            </span>
-          ))}
+      <div className="w-full max-w-6xl">
+        <div className="flex flex-col items-center text-center gap-2">
+          <h2 className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground">
+            Skills
+          </h2>
+        </div>
+        <div className="my-8 h-[3px] w-full bg-mouse" />
+
+        <div className="grid grid-cols-[repeat(6,minmax(0,1fr))] gap-6">
+          {languageSkills.map(renderSkillCard)}
+        </div>
+        <div className="mt-6 grid grid-cols-3 gap-6">
+          {toolSkills.map(renderSkillCard)}
         </div>
       </div>
     </section>

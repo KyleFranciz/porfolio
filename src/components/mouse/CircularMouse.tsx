@@ -20,7 +20,7 @@ export default function CircularMouse() {
 
   return (
     <div
-      className="fixed pointer-events-none w-3 h-3 rounded-full bg-mouse transform translate-1/2 z-100"
+      className="fixed pointer-events-none w-4 h-4 rounded-full bg-mouse transform translate-1/2 z-100"
       style={{ left: `${position.x}px`, top: `${position.y}px` }}
     ></div>
   );

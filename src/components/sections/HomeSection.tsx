@@ -10,6 +10,7 @@ type SectionProps = {
   id?: string;
 };
 
+// predefined setting to help with adjusting the staggers in the animations
 const subheadStagger = 0.2;
 const arrowStagger = 2;
 
@@ -130,7 +131,7 @@ export default function HomeSection({ id = "home" }: SectionProps) {
             />
           </div>
 
-          <div className="flex-1 flex items-center justify-center min-h-[7rem]">
+          <div className="flex-1 flex items-center justify-center min-h-28">
             <div
               className={`transition-all duration-300 ${
                 isSticky
@@ -148,7 +149,7 @@ export default function HomeSection({ id = "home" }: SectionProps) {
 
           <StaggeredPTag
             text="INTERNSHIP STATUS: SEEKING"
-            className="hidden md:block sm:block sm:hidden text-lg"
+            className="hidden md:block sm:hidden text-lg"
             delay={subheadStagger}
           />
         </div>
