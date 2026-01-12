@@ -11,6 +11,7 @@ import {
   SiTailwindcss,
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa6";
+import ScrollTriggerTitle from "../animations/scrollTriggerTitle";
 
 type SectionProps = {
   id?: string;
@@ -67,7 +68,15 @@ const toolSkills: { name: string; link: string; Icon: IconType }[] = [
   },
 ];
 
-const renderSkillCard = ({ name, link, Icon }: { name: string; link: string; Icon: IconType }) => (
+const renderSkillCard = ({
+  name,
+  link,
+  Icon,
+}: {
+  name: string;
+  link: string;
+  Icon: IconType;
+}) => (
   <Link
     key={name}
     href={link}
@@ -76,8 +85,13 @@ const renderSkillCard = ({ name, link, Icon }: { name: string; link: string; Ico
     aria-label={`Visit ${name}`}
     className="group flex aspect-square flex-col items-center justify-center gap-4 rounded-3xl border border-white/20 bg-white/20 p-6 text-center transition-all duration-300 hover:bg-mouse/40 hover:text-foreground"
   >
-    <Icon size={48} className="text-mouse transition-colors duration-300 group-hover:text-foreground" />
-    <span className="text-lg font-semibold uppercase tracking-wide">{name}</span>
+    <Icon
+      size={48}
+      className="text-mouse transition-colors duration-300 group-hover:text-foreground"
+    />
+    <span className="text-lg font-semibold uppercase tracking-wide">
+      {name}
+    </span>
   </Link>
 );
 
@@ -89,11 +103,12 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
     >
       <div className="w-full max-w-6xl">
         <div className="flex flex-col items-center text-center gap-2">
-          <h2 className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground">
-            Skills
-          </h2>
+          <ScrollTriggerTitle
+            text="skills"
+            className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground"
+          />
         </div>
-        <div className="my-8 h-[3px] w-full bg-mouse" />
+        <div className="my-8 h-1.25 w-full bg-mouse" />
 
         <div className="grid grid-cols-[repeat(6,minmax(0,1fr))] gap-6">
           {languageSkills.map(renderSkillCard)}

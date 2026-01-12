@@ -1,7 +1,7 @@
 "use client";
 import gsap from "gsap";
 import { SplitText } from "gsap/all";
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 
 type Text = {

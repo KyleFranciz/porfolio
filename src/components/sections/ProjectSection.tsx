@@ -2,7 +2,9 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+// for Navigation between projects
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import ScrollTriggerTitle from "../animations/scrollTriggerTitle";
 
 type SectionProps = {
   id?: string;
@@ -12,19 +14,22 @@ const projects = [
   {
     title: "Doc AI",
     description: "Local agent that helps with documentation",
-    image: "/project1.png", // Placeholder
+    image:
+      "https://images.unsplash.com/photo-1487014679447-9f8336841d58?auto=format&fit=crop&w=1600&q=80",
     link: "https://github.com/KyleFranciz/doc-ai",
   },
   {
     title: "AniLoaded",
     description: "Anime collection app with social aspects",
-    image: "/project2.png", // Placeholder
+    image:
+      "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?auto=format&fit=crop&w=1600&q=80",
     link: "https://github.com/WonderCharmer26/AniLoaded",
   },
   {
     title: "FAU Network",
     description: "Campus event app that connects students to on campus events",
-    image: "/project3.png",
+    image:
+      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1600&q=80",
     link: "https://github.com/KyleFranciz/fau-network",
   },
 ];
@@ -34,7 +39,7 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
   // container for the scrolling section
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // function for contoling the scrolling of the section
+  // function for contoling the horizontal scrolling of the section
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
       const scrollAmount = scrollRef.current.clientWidth * 0.8;
@@ -54,9 +59,12 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
         {/* Header Section */}
         <div className="flex flex-wrap items-end justify-between mb-2">
           <div className="flex flex-wrap items-end gap-x-6 gap-y-2">
-            <h2 className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground">
-              Projects
-            </h2>
+            {/* TITLE OF PAGE */}
+
+            <ScrollTriggerTitle
+              text="projects"
+              className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground"
+            />
             <Link
               href="https://github.com/KyleFranciz"
               target="_blank"
@@ -92,7 +100,7 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
         </div>
 
         {/* Separator Line */}
-        <div className="w-full h-[3px] bg-mouse mb-10" />
+        <div className="w-full h-1.25 bg-mouse mb-10" />
 
         {/* Scrollable Project Container */}
         <div
@@ -107,8 +115,14 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
             >
               {/* Image Placeholder/Container */}
               <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+                <div
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{
+                    backgroundImage: `url(${project.image})`,
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/30" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 z-10" />
-                <div className="w-full h-full bg-[#2a2a2a]" />
               </div>
 
               {/* Check it out button */}
