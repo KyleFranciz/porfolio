@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
+import { useRef } from "react";
 // for Navigation between projects
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import AnimatedLink from "../animations/animatedLink";
 import ScrollTriggerTitle from "../animations/scrollTriggerTitle";
+import ScrollSeperatorLine from "../animations/scrollSeperatorLine";
 
 type SectionProps = {
   id?: string;
@@ -60,18 +62,16 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
         <div className="flex flex-wrap items-end justify-between mb-2">
           <div className="flex flex-wrap items-end gap-x-6 gap-y-2">
             {/* TITLE OF PAGE */}
-
             <ScrollTriggerTitle
               text="projects"
               className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground"
             />
-            <Link
+            <AnimatedLink
+              text="Github"
               href="https://github.com/KyleFranciz"
               target="_blank"
               className="text-3xl md:text-5xl font-satoshi font-medium text-foreground hover:opacity-80 transition-opacity mb-2"
-            >
-              Github
-            </Link>
+            />
           </div>
 
           {/* Navigation Arrows */}
@@ -100,7 +100,7 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
         </div>
 
         {/* Separator Line */}
-        <div className="w-full h-1.25 bg-mouse mb-10" />
+        <ScrollSeperatorLine className="w-full h-1.25 bg-mouse mb-10" />
 
         {/* Scrollable Project Container */}
         <div

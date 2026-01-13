@@ -1,37 +1,42 @@
 "use client";
 
 // imports
-import { useGSAP } from "@gsap/react"; // use to handle the animation state
+import Link from "next/link";
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { useRef } from "react";
 
 // interface
-interface scrollTriggerTitleI {
+interface AnimatedLinkProps {
   text: string;
+  href: string;
   className: string;
+  target?: string;
 }
 
-// register the pluggins so that gsap knows it's useable
+// register the plugins so that gsap knows it's usable
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
-export default function ScrollTriggerTitle({
+export default function AnimatedLink({
   text,
+  href,
   className,
-}: scrollTriggerTitleI) {
+  target,
+}: AnimatedLinkProps) {
   // create a ref to handle animation state of the element passed back
-  const titleRef = useRef<HTMLHeadingElement | null>(null);
+  const linkRef = useRef<HTMLAnchorElement | null>(null);
 
   // make an gsap block to handle animation clean up
   useGSAP(() => {
     // handle if there is no element
-    if (!titleRef.current) {
+    if (!linkRef.current) {
       return;
     }
 
     // make split text animation
-    const split = new SplitText(titleRef.current, {
+    const split = new SplitText(linkRef.current, {
       type: "chars",
       smartWrap: true,
       charsClass: "char",
@@ -40,7 +45,7 @@ export default function ScrollTriggerTitle({
 
     // set the initial state of the text animation before it executes
     gsap.set(split.chars, {
-      yPercent: "random(-400, 400)",
+      yPercent: "random(400, -400)",
       opacity: 0,
       rotation: 1.3,
     });
@@ -55,7 +60,7 @@ export default function ScrollTriggerTitle({
       rotation: 0,
       stagger: 0.095,
       scrollTrigger: {
-        trigger: titleRef.current,
+        trigger: linkRef.current,
         // scrub: 1,
         start: "bottom center",
         markers: true,
@@ -72,8 +77,8 @@ export default function ScrollTriggerTitle({
   }, []);
 
   return (
-    <h2 ref={titleRef} className={className}>
+    <Link ref={linkRef} href={href} target={target} className={className}>
       {text}
-    </h2>
+    </Link>
   );
 }

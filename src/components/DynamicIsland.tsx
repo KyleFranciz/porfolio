@@ -11,6 +11,8 @@ interface DynamicIslandProps {
   onAnimationComplete?: () => void;
 }
 
+// TODO: add a hover to make the it scale a little bigger
+
 export default function DynamicIsland({
   onAnimationComplete,
 }: DynamicIslandProps) {
