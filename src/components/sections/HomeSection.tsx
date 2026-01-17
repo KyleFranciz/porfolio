@@ -75,17 +75,17 @@ export default function HomeSection({ id = "home" }: SectionProps) {
            - text-[14vw]: Scales perfectly with screen size
         */}
         <StaggeredText
-          className="relative block whitespace-nowrap overflow-hidden font-display font-black uppercase text-[6.5vw] md:text-[12vw] leading-[0.70] sm:text-[12vw] "
+          className="relative block whitespace-nowrap overflow-hidden font-display font-black uppercase text-[6.5vw] md:text-[12vw] lg:text-[14vw] leading-[0.70] sm:text-[12vw] "
           text="Creatively"
         />
         <StaggeredText
-          className="relative block whitespace-nowrap overflow-hidden font-display font-black uppercase text-[6.5vw] md:text-[12vw] leading-[0.70] sm:text-[12vw] "
+          className="relative block whitespace-nowrap overflow-hidden font-display font-black uppercase text-[6.5vw] md:text-[12vw] lg:text-[14vw] leading-[0.70] sm:text-[12vw] "
           text="building."
         />
 
         <StaggeredText
           text="using one block of code at a time."
-          className="mt-0 md:mt-0 font-bold text-[3.7vw] md:text-[3.15vw] uppercase sm:text-[3.1vw]"
+          className="mt-0 md:mt-0 font-bold text-[3.7vw] md:text-[3.15vw] lg:text-[3.65vw] uppercase sm:text-[3.1vw]"
         />
 
         {/* Pine Tree Icon (Simple SVG version) */}

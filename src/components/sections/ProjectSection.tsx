@@ -105,13 +105,13 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
         {/* Scrollable Project Container */}
         <div
           ref={scrollRef}
-          className="flex overflow-x-auto snap-x snap-mandatory lg:gap-4  no-scrollbar pb-10"
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 lg:gap-8 no-scrollbar pb-10 scroll-px-6"
         >
           {projects.map((project, index) => (
             <Link
               key={index}
               href={project.link}
-              className="group relative block flex-none w-[85vw] md:w-[45vw] aspect-square overflow-hidden rounded-sm snap-start"
+              className="group relative block flex-none shrink-0 w-[85vw] sm:w-[60vw] md:w-[47%] lg:w-[47%] xl:w-[48%] aspect-square overflow-hidden rounded-2xl snap-start rouded"
             >
               {/* Image Placeholder/Container */}
               <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
