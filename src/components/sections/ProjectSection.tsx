@@ -5,6 +5,8 @@ import { useRef } from "react";
 // for Navigation between projects
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import AnimatedLink from "../animations/animatedLink";
+import ProjectArrowReveal from "../animations/ProjectArrowReveal";
+import ProjectCardsReveal from "../animations/ProjectCardsReveal";
 import ScrollTriggerTitle from "../animations/scrollTriggerTitle";
 import ScrollSeperatorLine from "../animations/scrollSeperatorLine";
 
@@ -40,6 +42,7 @@ const projects = [
 export default function ProjectSection({ id = "projects" }: SectionProps) {
   // container for the scrolling section
   const scrollRef = useRef<HTMLDivElement>(null);
+  const arrowRef = useRef<HTMLDivElement>(null);
 
   // function for contoling the horizontal scrolling of the section
   const scroll = (direction: "left" | "right") => {
@@ -75,7 +78,10 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
           </div>
 
           {/* Navigation Arrows */}
-          <div className="flex gap-4 mb-4 md:mb-2">
+          <ProjectArrowReveal
+            containerRef={arrowRef}
+            className="flex gap-4 mb-4 md:mb-2"
+          >
             <button
               onClick={() => scroll("left")}
               className="p-3 rounded-full border border-mouse/30 text-mouse hover:bg-mouse hover:text-background transition-all duration-300 group"
@@ -96,15 +102,15 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
                 className="group-active:scale-90 transition-transform"
               />
             </button>
-          </div>
+          </ProjectArrowReveal>
         </div>
 
         {/* Separator Line */}
         <ScrollSeperatorLine className="w-full h-1.25 bg-mouse mb-10" />
 
         {/* Scrollable Project Container */}
-        <div
-          ref={scrollRef}
+        <ProjectCardsReveal
+          containerRef={scrollRef}
           className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 lg:gap-8 no-scrollbar pb-10 scroll-px-6"
         >
           {projects.map((project, index) => (
@@ -143,7 +149,7 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
               </div>
             </Link>
           ))}
-        </div>
+        </ProjectCardsReveal>
       </div>
     </section>
   );

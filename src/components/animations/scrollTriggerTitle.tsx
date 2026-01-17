@@ -48,9 +48,9 @@ export default function ScrollTriggerTitle({
     // animation control for the text
     const animation = gsap.to(split.chars, {
       yPercent: 0,
-      delay: 0.85,
+      delay: 0.8,
       duration: 0.52,
-      ease: "power1.inOut",
+      ease: "power2.inOut",
       opacity: 1,
       rotation: 0,
       stagger: 0.095,
