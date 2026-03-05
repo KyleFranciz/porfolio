@@ -15,8 +15,11 @@ const subheadStagger = 0.2;
 const arrowStagger = 2;
 
 export default function HomeSection({ id = "home" }: SectionProps) {
+  // reference for the hero section
   const heroRef = useRef<HTMLElement | null>(null);
+  // track the intro to the site
   const [introComplete, setIntroComplete] = useState(false);
+  // sticky state for the DynamicIsland
   const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
