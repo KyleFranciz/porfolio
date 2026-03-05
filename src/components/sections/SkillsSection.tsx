@@ -1,5 +1,8 @@
 "use client";
+
+import { useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "motion/react";
 import type { IconType } from "react-icons";
 import {
   SiPython,
@@ -15,11 +18,6 @@ import {
   SiLangchain,
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa6";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import ScrollTriggerTitle from "../animations/scrollTriggerTitle";
-import ScrollSeperatorLine from "../animations/scrollSeperatorLine";
 
 type SectionProps = {
   id?: string;
@@ -27,138 +25,106 @@ type SectionProps = {
 
 type Skill = { name: string; link: string; Icon: IconType };
 
-const EmptyIcon: IconType = () => null;
-
-const languageSkills: Skill[] = [
-  { name: "Python", link: "https://www.python.org/", Icon: SiPython },
-  { name: "Java", link: "https://www.java.com/", Icon: FaJava },
+const allSkills: Skill[] = [
   { name: "React", link: "https://react.dev/", Icon: SiReact },
   { name: "Next.js", link: "https://nextjs.org/", Icon: SiNextdotjs },
-  {
-    name: "TypeScript",
-    link: "https://www.typescriptlang.org/",
-    Icon: SiTypescript,
-  },
-  {
-    name: "JavaScript",
-    link: "https://www.javascript.com/",
-    Icon: SiJavascript,
-  },
-];
-
-const librariesSkills: Skill[] = [
+  { name: "TypeScript", link: "https://www.typescriptlang.org/", Icon: SiTypescript },
+  { name: "JavaScript", link: "https://www.javascript.com/", Icon: SiJavascript },
+  { name: "Python", link: "https://www.python.org/", Icon: SiPython },
+  { name: "Java", link: "https://www.java.com/", Icon: FaJava },
   { name: "FastAPI", link: "https://fastapi.tiangolo.com/", Icon: SiFastapi },
   { name: "LangChain", link: "https://www.langchain.com/", Icon: SiLangchain },
-];
-
-const toolSkills: Skill[] = [
+  { name: "Tailwind", link: "https://tailwindcss.com/", Icon: SiTailwindcss },
   { name: "Supabase", link: "https://supabase.com/", Icon: SiSupabase },
-  { name: "AWS", link: "https://aws.amazon.com/", Icon: EmptyIcon },
   { name: "Docker", link: "https://www.docker.com/", Icon: SiDocker },
   { name: "Figma", link: "https://figma.com/", Icon: SiFigma },
-  { name: "Tailwind", link: "https://tailwindcss.com/", Icon: SiTailwindcss },
 ];
 
-// Number of copies to duplicate for seamless looping
-const COPIES = 6;
-
-function MarqueeRow({
-  label,
-  skills,
-  direction = "left",
-}: {
-  label: string;
-  skills: Skill[];
-  direction?: "left" | "right";
-}) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const tweenRef = useRef<gsap.core.Tween | null>(null);
-
-  // Duplicate items enough times to ensure seamless loop at any screen width
-  const items = Array.from({ length: COPIES }, () => skills).flat();
-
-  useGSAP(() => {
-    const el = trackRef.current;
-    if (!el) return;
-
-    // Moving by -(100/COPIES)% shifts exactly one full set of items
-    const movePercent = -(100 / COPIES);
-
-    tweenRef.current = gsap.fromTo(
-      el,
-      { xPercent: direction === "right" ? movePercent : 0 },
-      {
-        xPercent: direction === "right" ? 0 : movePercent,
-        duration: skills.length * 6,
-        ease: "none",
-        repeat: -1,
-      },
-    );
-
-    return () => {
-      tweenRef.current?.kill();
-    };
-  }, [direction, skills.length]);
-
-  return (
-    <div className="mt-15 flex flex-col gap-10">
-      <h3 className="px-6 text-xs font-semibold uppercase tracking-[0.25em] text-mouse">
-        {label}
-      </h3>
-      <div
-        className="overflow-hidden border-y border-foreground/10 py-20"
-        onMouseEnter={() => tweenRef.current?.pause()}
-        onMouseLeave={() => tweenRef.current?.play()}
-      >
-        <div ref={trackRef} className="flex w-max items-center">
-          {items.map((skill, i) => (
-            <Link
-              key={`${skill.name}-${i}`}
-              href={skill.link}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`Visit ${skill.name}`}
-              className="group flex shrink-0 items-center gap-4 px-10"
-            >
-              <skill.Icon
-                size={38}
-                className="text-foreground/30 transition-colors duration-300 group-hover:text-foreground"
-              />
-              <span className="text-2xl font-bold uppercase tracking-tight text-foreground/30 transition-colors duration-300 group-hover:text-foreground">
-                {skill.name}
-              </span>
-              <span className="ml-4 text-xl text-foreground/15">·</span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function SkillsSection({ id = "skills" }: SectionProps) {
+  const [featuredIdx, setFeaturedIdx] = useState(1); // Next.js as default
+
+  const n = allSkills.length;
+  const prevSkill = allSkills[(featuredIdx - 1 + n) % n];
+  const currentSkill = allSkills[featuredIdx];
+  const nextSkill = allSkills[(featuredIdx + 1) % n];
+
   return (
     <section
       id={id}
-      className="min-h-screen snap-start overflow-hidden py-20 font-satoshi"
+      className="min-h-screen snap-start flex flex-col justify-center px-10 py-16 font-satoshi"
     >
-      <div className="px-6">
-        <div className="flex flex-col items-center text-center gap-2">
-          <ScrollTriggerTitle
-            text="skills"
-            className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground"
-          />
-        </div>
-        <ScrollSeperatorLine className="my-8 h-1.25 w-full bg-mouse" />
+      {/* Small label */}
+      <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/40 mb-10">
+        Skilled At
+      </p>
+
+      {/* Featured row: prev neighbor | featured card | next neighbor */}
+      <div className="grid grid-cols-[1fr_4fr_1fr] items-center">
+        {/* Prev skill */}
+        <button
+          onClick={() => setFeaturedIdx((featuredIdx - 1 + n) % n)}
+          className="flex items-center justify-center opacity-25 hover:opacity-60 transition-opacity duration-300"
+          aria-label={`Select ${prevSkill.name}`}
+        >
+          <prevSkill.Icon size={48} className="text-foreground" />
+        </button>
+
+        {/* Featured card */}
+        <Link
+          href={currentSkill.link}
+          target="_blank"
+          rel="noreferrer"
+          className="w-full aspect-video bg-foreground flex items-center justify-center overflow-hidden"
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={featuredIdx}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              className="flex flex-col items-center justify-center gap-5"
+            >
+              <currentSkill.Icon size={80} className="text-background" />
+              <span className="text-background text-xs font-semibold uppercase tracking-[0.3em] opacity-60">
+                {currentSkill.name}
+              </span>
+            </motion.div>
+          </AnimatePresence>
+        </Link>
+
+        {/* Next skill */}
+        <button
+          onClick={() => setFeaturedIdx((featuredIdx + 1) % n)}
+          className="flex items-center justify-center opacity-25 hover:opacity-60 transition-opacity duration-300"
+          aria-label={`Select ${nextSkill.name}`}
+        >
+          <nextSkill.Icon size={48} className="text-foreground" />
+        </button>
       </div>
 
-      <MarqueeRow label="Languages" skills={languageSkills} direction="left" />
-      <MarqueeRow
-        label="Libraries"
-        skills={librariesSkills}
-        direction="right"
-      />
-      <MarqueeRow label="Tools" skills={toolSkills} direction="left" />
+      {/* Horizontal divider */}
+      <div className="w-full border-t border-foreground/15 mt-6" />
+
+      {/* All skills bottom row */}
+      <div className="flex w-full">
+        {allSkills.map((skill, i) => {
+          const isActive = i === featuredIdx;
+          return (
+            <button
+              key={skill.name}
+              onMouseEnter={() => setFeaturedIdx(i)}
+              onClick={() => setFeaturedIdx(i)}
+              className={`flex-1 flex items-center justify-center py-10 border-r border-foreground/15 last:border-r-0 transition-opacity duration-300 ${
+                isActive ? "opacity-100" : "opacity-20 hover:opacity-55"
+              }`}
+              aria-label={`Feature ${skill.name}`}
+            >
+              <skill.Icon size={28} className="text-foreground" />
+            </button>
+          );
+        })}
+      </div>
     </section>
   );
 }
