@@ -1,5 +1,6 @@
 "use client";
 
+// imports
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
@@ -19,12 +20,15 @@ import {
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa6";
 
+// props type
 type SectionProps = {
   id?: string;
 };
 
+// type for the skills section
 type Skill = { name: string; link: string; Icon: IconType };
 
+// different skills
 const languageSkills: Skill[] = [
   { name: "React", link: "https://react.dev/", Icon: SiReact },
   { name: "Next.js", link: "https://nextjs.org/", Icon: SiNextdotjs },
@@ -54,6 +58,7 @@ const toolSkills: Skill[] = [
   { name: "Figma", link: "https://figma.com/", Icon: SiFigma },
 ];
 
+// state for the hover box
 type BoxState = {
   x: number;
   y: number;
@@ -62,6 +67,7 @@ type BoxState = {
   visible: boolean;
 };
 
+// animation for the skill section hover
 export default function SkillsSection({ id = "skills" }: SectionProps) {
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
   const [box, setBox] = useState<BoxState>({
@@ -71,16 +77,24 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
     height: 0,
     visible: false,
   });
+  // ref for the container for better controll
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // handle the mouse entering
   function handleEnter(
     e: React.MouseEvent<HTMLAnchorElement>,
     skillName: string,
   ) {
+    // set hovered skill state
     setHoveredSkill(skillName);
+
+    // if there is no current container exit func
     if (!containerRef.current) return;
+    // get the current position
     const cell = e.currentTarget.getBoundingClientRect();
+    // get position of the container
     const container = containerRef.current.getBoundingClientRect();
+    // set the box positioning
     setBox({
       x: cell.left - container.left,
       y: cell.top - container.top,
@@ -88,13 +102,17 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
       height: cell.height,
       visible: true,
     });
+    document.documentElement.style.setProperty("--cursor-color", "white");
   }
 
+  // handle when mouse leaves
   function handleLeave() {
     setHoveredSkill(null);
     setBox((prev) => ({ ...prev, visible: false }));
+    document.documentElement.style.setProperty("--cursor-color", "#98975f");
   }
 
+  // render out the rows
   function renderRow(skills: Skill[]) {
     return skills.map((skill) => {
       const isHovered = hoveredSkill === skill.name;
@@ -110,7 +128,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
           aria-label={skill.name}
         >
           <skill.Icon
-            size={40}
+            size={45}
             className={`transition-colors duration-150 ${
               isHovered ? "text-background" : "text-foreground/40"
             }`}
@@ -125,7 +143,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
       id={id}
       className="min-h-screen snap-start flex flex-col justify-center px-10 py-16 font-satoshi"
     >
-      <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-foreground/40 mb-8">
+      <p className="text-xl font-bold uppercase tracking-[0.25em] text-foreground/40 mb-8">
         Skilled At
       </p>
 
@@ -145,8 +163,8 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
 
         {/* Row 1: Languages */}
         <div className="flex flex-col gap-2 py-20">
-          <span className="text-[11px] uppercase tracking-widest text-foreground/40">
-            Languages
+          <span className="text-[15px] uppercase tracking-widest text-foreground/40">
+            Languages & Frameworks
           </span>
           <div className="flex">{renderRow(languageSkills)}</div>
         </div>
@@ -155,7 +173,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
 
         {/* Row 2: Libraries */}
         <div className="flex flex-col gap-2 py-20">
-          <span className="text-[11px] uppercase tracking-widest text-foreground/40">
+          <span className="text-[15px] uppercase tracking-widest text-foreground/40">
             Libraries
           </span>
           <div className="flex">{renderRow(librarySkills)}</div>
@@ -165,7 +183,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
 
         {/* Row 3: Tools */}
         <div className="flex flex-col gap-2 py-20">
-          <span className="text-[11px] uppercase tracking-widest text-foreground/40">
+          <span className="text-[15px] uppercase tracking-widest text-foreground/40">
             Tools
           </span>
           <div className="flex">{renderRow(toolSkills)}</div>

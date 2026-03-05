@@ -20,8 +20,13 @@ export default function CircularMouse() {
 
   return (
     <div
-      className="fixed pointer-events-none w-4 h-4 rounded-full bg-mouse transform translate-1/2 z-100"
-      style={{ left: `${position.x}px`, top: `${position.y}px` }}
+      className="fixed pointer-events-none w-6 h-6 rounded-full transform translate-1/2 z-100"
+      style={{
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        backgroundColor: "var(--cursor-color, #98975f)",
+        transition: "background-color 150ms ease",
+      }}
     ></div>
   );
 }
