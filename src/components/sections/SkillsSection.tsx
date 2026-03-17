@@ -19,6 +19,9 @@ import {
   SiFramer,
   SiGreensock,
   SiReactquery,
+  SiLinux,
+  SiExpress,
+  SiZod,
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa6";
 
@@ -48,6 +51,8 @@ const librarySkills: Skill[] = [
   { name: "LangChain", link: "https://www.langchain.com/", Icon: SiLangchain },
   { name: "Motion", link: "https://motion.dev/", Icon: SiFramer },
   { name: "GSAP", link: "https://gsap.com/", Icon: SiGreensock },
+  { name: "Express", link: "https://expressjs.com/", Icon: SiExpress },
+  { name: "Zod", link: "https://zod.dev/", Icon: SiZod },
 ];
 
 const toolSkills: Skill[] = [
@@ -56,6 +61,7 @@ const toolSkills: Skill[] = [
   { name: "Docker", link: "https://www.docker.com/", Icon: SiDocker },
   { name: "Figma", link: "https://figma.com/", Icon: SiFigma },
   { name: "TanStack", link: "https://tanstack.com/", Icon: SiReactquery },
+  { name: "Linux", link: "https://www.linux.org/", Icon: SiLinux },
 ];
 
 type BoxState = {
