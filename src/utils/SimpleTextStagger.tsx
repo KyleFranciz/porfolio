@@ -18,11 +18,14 @@ export default function SimpleTextStagger({
   className,
   infiniteShowcase,
 }: SimpleTextStaggerI) {
-  // reference for the primary text line that SplitText manipulates
   const textRef = useRef<HTMLHeadingElement | null>(null);
-  // track reference used only when rendering the looping marquee copy
   const trackRef = useRef<HTMLDivElement | null>(null);
+  // keep a ref to the marquee tween so cleanup can kill it even though it
+  // starts asynchronously inside the entrance onComplete callback
+  const marqueeTweenRef = useRef<gsap.core.Tween | null>(null);
 
+  // [] ensures this runs once on mount only — without it, every re-render
+  // would kill and restart the marquee from the beginning
   useGSAP(() => {
     if (!textRef.current) return;
 
@@ -33,43 +36,45 @@ export default function SimpleTextStagger({
       mask: "chars",
     });
 
-    // GSAP timeline to control the characters animation + optional marquee
-    const timeline = gsap.timeline({ defaults: { ease: "bounce.inOut" } });
+    const entranceTl = gsap.timeline({ defaults: { ease: "bounce.inOut" } });
 
-    // initial stagger animation that drops each char into view
-    timeline.from(split.chars, {
+    entranceTl.from(split.chars, {
       yPercent: "random([-200, 200])",
       opacity: 0,
       stagger: 0.08,
       delay: delay,
       duration: duration,
-    });
+      onComplete: () => {
+        if (!infiniteShowcase || !trackRef.current || !textRef.current) return;
 
-    // triggers if on the condition for both infiniteShowcase and trackRef.current
-    if (infiniteShowcase && trackRef.current) {
-      const gapPx = 4; // gap-1 equals 0.25rem / 4px
-      const loopWidth = textRef.current.offsetWidth + gapPx;
+        // Revert SplitText BEFORE measuring and BEFORE starting the marquee.
+        // This is critical: with SplitText active, copy1 has char-mask spans
+        // that make it render differently from copy2 (plain text). After the
+        // GSAP repeat snap (x resets to 0), you'd see copy1's split DOM
+        // instead of copy2's plain DOM — a visible flash. Reverting first
+        // makes both copies identical plain text, so the snap is seamless.
+        split.revert();
 
-      // follow-up tween that scrolls the duplicated copy forever
-      timeline.to(
-        trackRef.current,
-        {
+        // Measure AFTER revert so offsetWidth reflects plain-text rendering
+        const gapPx = 4; // gap-1 = 0.25rem = 4px
+        const loopWidth = textRef.current.offsetWidth + gapPx;
+
+        marqueeTweenRef.current = gsap.to(trackRef.current, {
           x: -loopWidth,
           duration: 10,
           ease: "linear",
           repeat: -1,
           repeatDelay: 0,
-        },
-        ">",
-      );
-    }
+        });
+      },
+    });
 
-    // cleanup SplitText clones and timeline when component unmounts or rerenders
     return () => {
       split.revert();
-      timeline.kill();
+      entranceTl.kill();
+      marqueeTweenRef.current?.kill();
     };
-  });
+  }, []);
 
   if (infiniteShowcase) {
     return (
@@ -78,7 +83,6 @@ export default function SimpleTextStagger({
           ref={trackRef}
           className="flex items-center whitespace-nowrap gap-1"
         >
-          {/* duplicate copy so GSAP can scroll continuously with no gaps */}
           {[0, 1].map((copy) => (
             <h1
               key={`marquee-${copy}`}
@@ -94,7 +98,6 @@ export default function SimpleTextStagger({
     );
   }
 
-  // fallback for the single-line animation without marquee copies
   return (
     <h1 ref={textRef} className={className}>
       {text}

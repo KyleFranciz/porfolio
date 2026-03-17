@@ -7,7 +7,7 @@ import type { IconType } from "react-icons";
 import {
   SiPython,
   SiReact,
-  SiNextdotjs,
+  SiPostgresql,
   SiTypescript,
   SiJavascript,
   SiSupabase,
@@ -39,7 +39,7 @@ const STRONG_EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)";
 
 const languageSkills: Skill[] = [
   { name: "React", link: "https://react.dev/", Icon: SiReact },
-  { name: "Next.js", link: "https://nextjs.org/", Icon: SiNextdotjs },
+  { name: "PostgreSQL", link: "https://www.postgresql.org/", Icon: SiPostgresql },
   { name: "TypeScript", link: "https://www.typescriptlang.org/", Icon: SiTypescript },
   { name: "JavaScript", link: "https://www.javascript.com/", Icon: SiJavascript },
   { name: "Python", link: "https://www.python.org/", Icon: SiPython },
