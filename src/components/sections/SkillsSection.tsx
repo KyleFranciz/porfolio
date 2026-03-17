@@ -17,6 +17,9 @@ import {
   SiDocker,
   SiFastapi,
   SiLangchain,
+  SiFramer,
+  SiGreensock,
+  SiReactquery,
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa6";
 
@@ -49,6 +52,8 @@ const languageSkills: Skill[] = [
 const librarySkills: Skill[] = [
   { name: "FastAPI", link: "https://fastapi.tiangolo.com/", Icon: SiFastapi },
   { name: "LangChain", link: "https://www.langchain.com/", Icon: SiLangchain },
+  { name: "Motion", link: "https://motion.dev/", Icon: SiFramer },
+  { name: "GSAP", link: "https://gsap.com/", Icon: SiGreensock },
 ];
 
 const toolSkills: Skill[] = [
@@ -56,6 +61,11 @@ const toolSkills: Skill[] = [
   { name: "Supabase", link: "https://supabase.com/", Icon: SiSupabase },
   { name: "Docker", link: "https://www.docker.com/", Icon: SiDocker },
   { name: "Figma", link: "https://figma.com/", Icon: SiFigma },
+  {
+    name: "TanStack",
+    link: "https://tanstack.com/",
+    Icon: SiReactquery,
+  },
 ];
 
 // state for the hover box
@@ -77,7 +87,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
     height: 0,
     visible: false,
   });
-  // ref for the container for better controll
+  // ref for the container for better control
   const containerRef = useRef<HTMLDivElement>(null);
 
   // handle the mouse entering
@@ -85,16 +95,11 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
     e: React.MouseEvent<HTMLAnchorElement>,
     skillName: string,
   ) {
-    // set hovered skill state
     setHoveredSkill(skillName);
 
-    // if there is no current container exit func
     if (!containerRef.current) return;
-    // get the current position
     const cell = e.currentTarget.getBoundingClientRect();
-    // get position of the container
     const container = containerRef.current.getBoundingClientRect();
-    // set the box positioning
     setBox({
       x: cell.left - container.left,
       y: cell.top - container.top,
@@ -112,8 +117,10 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
     document.documentElement.style.setProperty("--cursor-color", "#98975f");
   }
 
-  // render out the rows
+  // render out the rows — each cell gets an equal fractional width so the row
+  // is always divided evenly, and aspect-square makes height = width (square cells)
   function renderRow(skills: Skill[]) {
+    const cellWidth = `calc(100% / ${skills.length})`;
     return skills.map((skill) => {
       const isHovered = hoveredSkill === skill.name;
       return (
@@ -124,15 +131,25 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
           rel="noreferrer"
           onMouseEnter={(e) => handleEnter(e, skill.name)}
           onMouseLeave={handleLeave}
-          className="relative z-10 flex-1 flex items-center justify-center py-28 h-full border-r border-foreground/15 last:border-r-0"
+          style={{ width: cellWidth }}
+          className="relative z-10 aspect-square flex flex-col items-center justify-center gap-2 border-r border-foreground/15 last:border-r-0"
           aria-label={skill.name}
         >
           <skill.Icon
-            size={45}
-            className={`transition-colors duration-150 ${
-              isHovered ? "text-background" : "text-foreground/40"
+            size={28}
+            className={`transition-[color,transform] duration-200 ease-out ${
+              isHovered ? "text-background scale-110" : "text-foreground/40 scale-100"
             }`}
           />
+          <span
+            className={`text-[11px] uppercase tracking-widest font-medium transition-[opacity,filter,transform] duration-200 ease-out ${
+              isHovered
+                ? "opacity-100 text-background scale-100 blur-none"
+                : "opacity-0 text-foreground/40 scale-95 blur-sm"
+            }`}
+          >
+            {skill.name}
+          </span>
         </Link>
       );
     });
@@ -152,8 +169,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
         <motion.div
           className="absolute bg-foreground pointer-events-none z-0 rounded-sm"
           animate={{
-            x: box.x,
-            y: box.y,
+            transform: `translate(${box.x}px, ${box.y}px)`,
             width: box.width,
             height: box.height,
             opacity: box.visible ? 1 : 0,
@@ -162,7 +178,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
         />
 
         {/* Row 1: Languages */}
-        <div className="flex flex-col gap-2 py-20">
+        <div className="flex flex-col gap-2 py-4">
           <span className="text-[15px] uppercase tracking-widest text-foreground/40">
             Languages & Frameworks
           </span>
@@ -172,7 +188,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
         <div className="border-t border-foreground/15" />
 
         {/* Row 2: Libraries */}
-        <div className="flex flex-col gap-2 py-20">
+        <div className="flex flex-col gap-2 py-4">
           <span className="text-[15px] uppercase tracking-widest text-foreground/40">
             Libraries
           </span>
@@ -182,7 +198,7 @@ export default function SkillsSection({ id = "skills" }: SectionProps) {
         <div className="border-t border-foreground/15" />
 
         {/* Row 3: Tools */}
-        <div className="flex flex-col gap-2 py-20">
+        <div className="flex flex-col gap-2 py-4">
           <span className="text-[15px] uppercase tracking-widest text-foreground/40">
             Tools
           </span>

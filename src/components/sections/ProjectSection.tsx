@@ -84,23 +84,17 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
           >
             <button
               onClick={() => scroll("left")}
-              className="p-3 rounded-full border border-mouse/30 text-mouse hover:bg-mouse hover:text-background transition-all duration-300 group"
+              className="p-3 rounded-full border border-mouse/30 text-mouse hover:bg-mouse hover:text-background transition-[color,background-color,border-color,transform] duration-150 ease-out active:scale-[0.96]"
               aria-label="Scroll left"
             >
-              <ChevronLeft
-                size={24}
-                className="group-active:scale-90 transition-transform"
-              />
+              <ChevronLeft size={24} />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="p-3 rounded-full border border-mouse/30 text-mouse hover:bg-mouse hover:text-background transition-all duration-300 group"
+              className="p-3 rounded-full border border-mouse/30 text-mouse hover:bg-mouse hover:text-background transition-[color,background-color,border-color,transform] duration-150 ease-out active:scale-[0.96]"
               aria-label="Scroll right"
             >
-              <ChevronRight
-                size={24}
-                className="group-active:scale-90 transition-transform"
-              />
+              <ChevronRight size={24} />
             </button>
           </ProjectArrowReveal>
         </div>

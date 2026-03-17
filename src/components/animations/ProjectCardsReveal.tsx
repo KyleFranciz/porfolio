@@ -46,7 +46,6 @@ export default function ProjectCardsReveal({
       scrollTrigger: {
         trigger: containerRef.current,
         start: "top center",
-        markers: true,
         toggleActions: "play none none reverse",
       },
     });
