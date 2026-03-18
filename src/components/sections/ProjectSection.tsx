@@ -47,7 +47,8 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
   // function for contoling the horizontal scrolling of the section
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const scrollAmount = scrollRef.current.clientWidth * 0.8;
+      // scroll by one card width (50% of container + gap)
+      const scrollAmount = scrollRef.current.clientWidth * 0.5 + 8;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -61,26 +62,25 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
       className="min-h-screen px-6 py-20 flex flex-col justify-center font-satoshi"
     >
       <div className="mx-auto w-full max-w-7xl">
-        {/* Header Section */}
-        <div className="flex flex-wrap items-end justify-between mb-2">
-          <div className="flex flex-wrap items-end gap-x-6 gap-y-2">
-            {/* TITLE OF PAGE */}
+        {/* Header Section — title, github link, and arrows all on same baseline */}
+        <div className="flex items-end justify-between mb-2">
+          <div className="flex items-end gap-x-6">
             <ScrollTriggerTitle
               text="projects"
-              className="text-7xl md:text-[10rem] font-satoshi font-bold uppercase leading-[0.8] tracking-tight text-foreground"
+              className="text-7xl md:text-[6rem] font-satoshi font-bold uppercase leading-[0.85] tracking-tight text-foreground"
             />
             <AnimatedLink
               text="Github"
               href="https://github.com/KyleFranciz"
               target="_blank"
-              className="text-3xl md:text-5xl font-satoshi font-medium text-foreground hover:opacity-80 transition-opacity mb-2"
+              className="text-2xl md:text-[2rem] font-satoshi font-medium text-foreground hover:opacity-80 transition-opacity mb-1"
             />
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows — aligned to baseline of title */}
           <ProjectArrowReveal
             containerRef={arrowRef}
-            className="flex gap-4 mb-4 md:mb-2"
+            className="flex gap-4 mb-1"
           >
             <button
               onClick={() => scroll("left")}
@@ -100,44 +100,44 @@ export default function ProjectSection({ id = "projects" }: SectionProps) {
         </div>
 
         {/* Separator Line */}
-        <ScrollSeperatorLine className="w-full h-1.25 bg-mouse mb-10" />
+        <ScrollSeperatorLine className="w-full h-1.5 bg-mouse mb-8" />
 
-        {/* Scrollable Project Container */}
+        {/* Scrollable Project Container — 2 cards visible at a time */}
         <ProjectCardsReveal
           containerRef={scrollRef}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-4 md:gap-6 lg:gap-8 no-scrollbar pb-10 scroll-px-6"
+          className="flex overflow-x-auto snap-x snap-mandatory gap-4 no-scrollbar scroll-px-6"
         >
           {projects.map((project, index) => (
             <Link
               key={index}
               href={project.link}
-              className="group relative block flex-none shrink-0 w-[85vw] sm:w-[60vw] md:w-[47%] lg:w-[47%] xl:w-[48%] aspect-square overflow-hidden rounded-2xl snap-start rouded"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative block flex-none shrink-0 w-[85vw] md:w-[calc(50%-0.5rem)] aspect-[690/736] overflow-hidden rounded-1xl snap-start"
             >
-              {/* Image Placeholder/Container */}
-              <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+              {/* Background Image */}
+              <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105">
                 <div
                   className="absolute inset-0 bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url(${project.image})`,
-                  }}
+                  style={{ backgroundImage: `url(${project.image})` }}
                 />
-                <div className="absolute inset-0 bg-black/30" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 z-10" />
+                <div className="absolute inset-0 bg-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent z-10" />
               </div>
 
               {/* Check it out button */}
-              <div className="absolute top-6 right-6 z-20">
-                <div className="bg-[#1e1e1e] text-white px-6 py-3.5 rounded-full text-sm font-medium transition-all duration-300 border border-white/5 group-hover:bg-black">
+              <div className="absolute top-5 right-5 z-20">
+                <div className="bg-[#262626] text-background px-5 py-3 rounded-full text-base font-satoshi font-bold transition-all duration-300 group-hover:bg-black">
                   Check it out
                 </div>
               </div>
 
-              {/* Project Info */}
-              <div className="absolute bottom-10 left-10 z-20">
-                <h3 className="text-4xl font-satoshi font-medium text-mouse mb-1">
+              {/* Project Info — mix-blend-screen makes olive text glow over dark image */}
+              <div className="absolute bottom-8 left-8 z-20 mix-blend-screen">
+                <h3 className="text-[2rem] font-satoshi font-medium text-mouse mb-1">
                   {project.title}
                 </h3>
-                <p className="text-lg font-satoshi text-mouse/90 font-medium">
+                <p className="text-xl font-satoshi font-bold text-mouse">
                   {project.description}
                 </p>
               </div>
