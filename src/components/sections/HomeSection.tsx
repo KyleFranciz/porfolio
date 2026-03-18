@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import StaggeredText from "@/utils/StaggeredTextAnimation";
 import StaggeredPTag from "@/utils/StaggeredPTag";
@@ -19,24 +19,6 @@ export default function HomeSection({ id = "home" }: SectionProps) {
   const heroRef = useRef<HTMLElement | null>(null);
   // track the intro to the site
   const [introComplete, setIntroComplete] = useState(false);
-  // sticky state for the DynamicIsland
-  const [isSticky, setIsSticky] = useState(false);
-
-  useEffect(() => {
-    if (!introComplete) {
-      setIsSticky(false);
-      return;
-    }
-
-    const handleScroll = () => {
-      const threshold = heroRef.current?.offsetHeight ?? 0;
-      setIsSticky(window.scrollY > threshold);
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [introComplete]);
 
   return (
     <section
@@ -135,13 +117,7 @@ export default function HomeSection({ id = "home" }: SectionProps) {
           </div>
 
           <div className="flex-1 flex items-center justify-center min-h-28">
-            <div
-              className={`transition-all duration-300 ${
-                isSticky
-                  ? "fixed top-4 left-1/2 z-40 -translate-x-1/2"
-                  : "relative"
-              }`}
-            >
+            <div className="relative">
               <div className="w-fit">
                 <DynamicIsland
                   onAnimationComplete={() => setIntroComplete(true)}
